@@ -1,0 +1,28 @@
+{
+  "name": "package.json",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/hanndowyne/cse_340_#readme",
+  "bugs": {
+    "url": "https://github.com/hanndowyne/cse_340_/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hanndowyne/cse_340_.git"
+  },
+  "license": "ISC",
+  "author": "hann_dowyne",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "ejs": "^5.0.1",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
