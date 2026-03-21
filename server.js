@@ -44,7 +44,7 @@ app.get('/organizations', async (req, res) => {
     const organizations = await getAllOrganizations();
 
     const title = 'Our Partner Organizations';
-    res.render('organizations', { title, organizations});
+    res.render('organizations', { title, organizations });
 });
 
 app.get('/projects', async (req, res) => {
@@ -63,10 +63,6 @@ app.get('/categories', async (req, res) => {
 })
 
 
-app.listen(PORT, () => {
-    console.log(`Server is running at http://127.0.0.1:${PORT}`)
-    console.log(`Environment: ${NODE_ENV}`)
-})
 
 app.listen(PORT, async () => {
     try {
