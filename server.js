@@ -1,6 +1,10 @@
 import { fileURLToPath } from 'url'
 import path from 'path'
 import express from 'express'
+import { testConnection } from './src/models/db.js';
+import { getAllOrganizations } from './src/models/organizations.js';
+import { getAllProjects } from './src/models/projects.js';
+
 
 // Create filename and dirname for ES modules
 const __filename = fileURLToPath(import.meta.url)
@@ -36,13 +40,17 @@ app.get('/', async (req, res) => {
 });
 
 app.get('/organizations', async (req, res) => {
+    const organizations = await getAllOrganizations();
+
     const title = 'Our Partner Organizations';
-    res.render('organizations', { title });
+    res.render('organizations', { title, organizations});
 });
 
 app.get('/projects', async (req, res) => {
-    const title = 'Service Projects';
-    res.render('projects', { title });
+    const projects = await getAllProjects();
+
+    const title = 'Service Projects'
+    res.render('projects', { title, projects });
 });
 
 app.get('/categories', (req, res) => {
@@ -55,3 +63,13 @@ app.listen(PORT, () => {
     console.log(`Server is running at http://127.0.0.1:${PORT}`)
     console.log(`Environment: ${NODE_ENV}`)
 })
+
+app.listen(PORT, async () => {
+    try {
+        await testConnection();
+        console.log(`Server is running at http://127.0.0.1:${PORT}`);
+        console.log(`Environment: ${NODE_ENV}`);
+    } catch (error) {
+        console.error('Error connecting to the database:', error);
+    }
+});
