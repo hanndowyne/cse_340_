@@ -82,14 +82,21 @@ const getProjectDetails = async (id) => {
       sp.project_date AS date,
       sp.location,
       sp.organization_id,
-      o.name AS organization_name
+      o.name AS organization_name,
+      c.category_id,
+      c.name AS category_name
     FROM service_projects sp
     JOIN organization o
       ON sp.organization_id = o.organization_id
+    LEFT JOIN project_categories pc
+      ON sp.project_id = pc.project_id
+    LEFT JOIN categories c
+      ON pc.category_id = c.category_id
     WHERE sp.project_id = $1;
   `;
 
   const result = await db.query(query, [id]);
+
   return result.rows[0];
 };
 

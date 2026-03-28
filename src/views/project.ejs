@@ -13,12 +13,13 @@
         <p>Location: <%= project.location %>
         </p>
 
-        <>
+        <p>
             Organization:
             <a href="/organization/<%= project.organization_id %>">
                 <%= project.organization_name %>
             </a>
         </p>
+        <a href="/category/<%= project.category_id %>">View Category</a>
 
         <a href="/projects">Back to Projects</a>
     </main>

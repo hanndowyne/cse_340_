@@ -5,7 +5,7 @@ import { testConnection } from './src/models/db.js';
 import router from './src/controllers/router.js';
 
 // Define the application environment
-const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production'
+const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'development'
 
 // Define the port number
 const PORT = process.env.PORT || 3000
