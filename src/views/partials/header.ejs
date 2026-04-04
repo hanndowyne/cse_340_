@@ -23,16 +23,15 @@
 </header>
 
 <body>
-     <div class="flash-messages">
-       <% const messages = flash(); %>
-       <% Object.keys(messages).forEach(type => { %>
-           <% if (messages[type].length > 0) { %>
-               <div class="alert <%= type %>">
-                   <% messages[type].forEach(msg => { %>
-                       <%= msg %>
-                   <% }); %>
-               </div>
-           <% } %>
-       <% }); %>
-   </div>
+    <div class="flash-messages">
+        <% if (messages) { %>
+            <% Object.keys(messages).forEach(type=> { %>
+                <% messages[type].forEach(msg=> { %>
+                    <p class="alert <%= type %>">
+                        <%= msg %>
+                    </p>
+                    <% }) %>
+                        <% }) %>
+                            <% } %>
+    </div>
 </body>
