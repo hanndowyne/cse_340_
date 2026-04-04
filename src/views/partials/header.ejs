@@ -10,7 +10,8 @@
     <link rel="stylesheet" href="/css/main.css">
 </head>
 
-<header>
+<body>
+    <header>
     <nav>
         <ul>
             <li><a href="/">Home</a></li>
@@ -22,16 +23,14 @@
 
 </header>
 
-<body>
     <div class="flash-messages">
         <% if (messages) { %>
             <% Object.keys(messages).forEach(type=> { %>
                 <% messages[type].forEach(msg=> { %>
-                    <p class="alert <%= type %>">
+                    <p cnpm lass="alert <%= type %>">
                         <%= msg %>
                     </p>
                     <% }) %>
                         <% }) %>
                             <% } %>
     </div>
-</body>
