@@ -1,9 +1,10 @@
+import flash from 'connect-flash';
 import { fileURLToPath } from 'url'
 import path from 'path'
 import express from 'express'
 import { testConnection } from './src/models/db.js';
-import router from './src/controllers/router.js';
-
+import router from './src/controllers/routes.js';
+import session from 'express-session'
 // Define the application environment
 const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'development'
 
@@ -19,6 +20,23 @@ const app = express();
 /**
  * Configure Express middleware
  */
+
+
+// Set up session management
+app.use(session({
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: true,
+}));
+
+// Use flash message middleware
+app.use(flash);
+
+
+// Allow Express to receive and process common POST data
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -41,9 +59,16 @@ app.use((req, res, next) => {
 
 // Middleware to make NODE_ENV available to all templates
 app.use((req, res, next) => {
+    res.locals.messages = req.flash();
     res.locals.NODE_ENV = NODE_ENV;
     next();
 });
+
+app.use((req, res, next) => {
+    res.locals.messages = req.flash ? req.flash() : {}; // fallback to empty object
+    next();
+});
+
 
 
 // Use the imported router to handle routes
@@ -75,7 +100,7 @@ app.use((err, req, res, next) => {
         stack: err.stack
     };
 
-    
+
 
     // Render the appropriate error template
     res.status(status).render(`errors/${template}`, context);
