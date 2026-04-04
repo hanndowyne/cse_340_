@@ -1,0 +1,28 @@
+<%- include('partials/header') %>
+
+<main>
+    <h1>Edit Category</h1>
+
+    <!-- Display flash messages -->
+    <% if (locals.flash) { %>
+        <% locals.flash('error')?.forEach(msg => { %>
+            <p class="error"><%= msg %></p>
+        <% }) %>
+        <% locals.flash('success')?.forEach(msg => { %>
+            <p class="success"><%= msg %></p>
+        <% }) %>
+    <% } %>
+
+    <form action="/edit-category/<%= category.category_id %>" method="POST">
+        <div>
+            <label for="name">Category Name</label>
+            <input type="text" id="name" name="name" value="<%= category.name %>" maxlength="100" required />
+        </div>
+
+        <button type="submit">Update Category</button>
+    </form>
+
+    <p><a href="/categories">Back to Categories</a></p>
+</main>
+
+<%- include('partials/footer') %>
