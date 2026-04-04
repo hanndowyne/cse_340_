@@ -9,7 +9,11 @@ import session from 'express-session'
 const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'development'
 
 // Define the port number
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
 
 // Create filename and dirname for ES modules
 const __filename = fileURLToPath(import.meta.url)
