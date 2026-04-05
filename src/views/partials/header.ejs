@@ -23,14 +23,12 @@
 
 </header>
 
-    <div class="flash-messages">
-        <% if (messages) { %>
-            <% Object.keys(messages).forEach(type=> { %>
-                <% messages[type].forEach(msg=> { %>
-                    <p cnpm lass="alert <%= type %>">
-                        <%= msg %>
-                    </p>
-                    <% }) %>
-                        <% }) %>
-                            <% } %>
-    </div>
+    <% Object.keys(messages).forEach(type => { %>
+        <% if (messages[type].length > 0) { %>
+            
+                <% messages[type].forEach(msg => { %>
+                    <%= msg %>
+                <% }); %>
+            
+        <% } %>
+    <% }); %>
