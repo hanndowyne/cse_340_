@@ -16,11 +16,16 @@
 
         <h3>Service Projects</h3>
         <ul>
-            <% projects.forEach(project=> { %>
-                <li><a href="/project/<%= project.project_id %>">
-                        <%= project.title %>
-                    </a></li>
-                <% }) %>
+            <% if (user && user.role_name==='admin' ) { %>
+                <a href="/project/<%= project.project_id %>">
+                    <%= project.title %>
+                </a>
+                <% } %>
+                    <% projects.forEach(project=> { %>
+                        <li><a href="/project/<%= project.project_id %>">
+                                <%= project.title %>
+                            </a></li>
+                        <% }) %>
         </ul>
     </main>
     <%- include('partials/footer') %>

@@ -12,13 +12,17 @@
         <h3>Projects in this category:</h3>
 
         <ul>
-            <% projects.forEach(project=> { %>
-                <li>
-                    <a href="/project/<%= project.project_id %>">
-                        <%= project.title %>
-                    </a>
-                </li>
-                <% }) %>
+            <% if (user && user.role_name==='admin' ) { %>
+                <a href="/edit-category/<%= category.category_id %>">Edit</a>
+
+                <% } %>
+                    <% projects.forEach(project=> { %>
+                        <li>
+                            <a href="/project/<%= project.project_id %>">
+                                <%= project.title %>
+                            </a>
+                        </li>
+                        <% }) %>
 
         </ul>
 

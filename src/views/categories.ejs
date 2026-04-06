@@ -8,16 +8,20 @@
         <h2>Service Project Categories</h2>
 
         <ul>
-            <ul>
-                <% categories.forEach(category=> { %>
-                    <li>
-                        <a href="/category/<%= category.category_id %>">
-                            <%= category.name %>
-                        </a>
-                    </li>
-                    <% }); %>
-            </ul>
+            <% if (user && user.role_name==='admin' ) { %>
+                <a href="/new-category">Add New Category</a>
+
+                <% } %>
+
+                    <% categories.forEach(category=> { %>
+                        <li>
+                            <a href="/category/<%= category.category_id %>">
+                                <%= category.name %>
+                            </a>
+                        </li>
+                        <% }); %>
         </ul>
+
         <a href="/new-category">Add New Category</a>
     </main>
 

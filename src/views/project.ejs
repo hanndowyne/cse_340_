@@ -22,16 +22,19 @@
 
         <h3>Categories:</h3>
         <ul>
-            <% if (categories.length> 0) { %>
-                <% categories.forEach(category=> { %>
-                    <li>
-                        <%= category.category_name %> -
-                            <a href="/category/<%= category.category_id %>">View Category</a>
-                    </li>
-                    <% }) %>
-                        <% } else { %>
-                            <li>No categories assigned</li>
-                            <% } %>
+            <% if (user && user.role_name==='admin' ) { %>
+                <p><a href="/edit-project/<%= project.project_id %>">Edit Project</a></p>
+                <% } %>
+                    <% if (categories.length> 0) { %>
+                        <% categories.forEach(category=> { %>
+                            <li>
+                                <%= category.category_name %> -
+                                    <a href="/category/<%= category.category_id %>">View Category</a>
+                            </li>
+                            <% }) %>
+                                <% } else { %>
+                                    <li>No categories assigned</li>
+                                    <% } %>
         </ul>
 
         <a href="/projects">Back to Projects</a>
