@@ -35,6 +35,23 @@
                                 <% } else { %>
                                     <li>No categories assigned</li>
                                     <% } %>
+
+
+
+                                        <% if (session.user) { %>
+                                            <% if (isVolunteer) { %>
+                                                <p>You are volunteering for this project</p>
+                                                <form action="/project/<%= project.project_id %>/unvolunteer"
+                                                    method="POST">
+                                                    <button type="submit">Remove Volunteer</button>
+                                                </form>
+                                                <% } else { %>
+                                                    <form action="/project/<%= project.project_id %>/volunteer"
+                                                        method="POST">
+                                                        <button type="submit">Volunteer</button>
+                                                    </form>
+                                                    <% } %>
+                                                        <% } %>
         </ul>
 
         <a href="/projects">Back to Projects</a>

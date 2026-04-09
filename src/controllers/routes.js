@@ -9,7 +9,7 @@ import { showNewProjectForm, processNewProjectForm, projectValidation, showEditP
 import { showUserRegistrationForm, processUserRegistrationForm } from './users.js';
 import { showLoginForm, processLoginForm, processLogout, showUsersPage } from './users.js';
 import { requireRole } from '../controllers/users.js';
-
+import { volunteerForProject, unvolunteerFromProject } from './volunteers.js';
 
 const router = express.Router();
 
@@ -45,6 +45,10 @@ router.get('/new-project', showNewProjectForm);
 
 // Route to handle new project form submission
 router.post('/new-project', projectValidation, processNewProjectForm);
+
+// Add volunteer routes (must be logged in)
+router.post('/project/:id/volunteer', volunteerForProject);
+router.post('/project/:id/unvolunteer', unvolunteerFromProject);
 
 // Routes to handle the assign categories to project form
 router.get('/assign-categories/:projectId', showAssignCategoriesForm);

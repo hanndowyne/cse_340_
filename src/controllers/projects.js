@@ -3,6 +3,7 @@ import { getCategoriesByProjectId } from '../models/categories.js';
 import { getAllOrganizations } from '../models/organizations.js';
 import { body, validationResult } from 'express-validator';
 import { updateProject } from '../models/projects.js';
+import { getUserVolunteeredProjects, addVolunteer, removeVolunteer } from '../models/volunteers.js';
 const NUMBER_OF_UPCOMING_PROJECTS = 5;
 
 // /projects
@@ -17,17 +18,27 @@ const showProjectsPage = async (req, res) => {
 }
 
 
-// /project/:id
 const showProjectDetailsPage = async (req, res) => {
     const id = req.params.id;
     const project = await getProjectDetails(id);
     const categories = await getCategoriesByProjectId(id);
     const title = project ? project.title : 'Project Not Found';
 
-    console.log(project);
-    res.render('project', { project, categories, title: project.title });
+    let isVolunteer = false;
 
+    if (req.session.user) {
+        const userId = req.session.user.user_id;
+        const userProjects = await getUserVolunteeredProjects(userId);
+        isVolunteer = userProjects.some(p => p.project_id === project.project_id);
+    }
 
+    res.render('project', {
+        project,
+        categories,
+        title,
+        session: req.session,   // <-- pass session to EJS
+        isVolunteer             // <-- pass isVolunteer flag
+    });
 };
 
 const showNewProjectForm = async (req, res) => {
@@ -136,4 +147,37 @@ const processEditProjectForm = async (req, res) => {
     }
 };
 
-export { showProjectsPage, showProjectDetailsPage, showNewProjectForm, processNewProjectForm, projectValidation, showEditProjectForm, processEditProjectForm };
+
+// POST /project/:id/volunteer
+const volunteerForProject = async (req, res) => {
+    const projectId = req.params.id;
+    const userId = req.session.user.user_id;
+
+    try {
+        await addVolunteer(userId, projectId);
+        req.flash('success', 'You are now volunteering for this project!');
+        res.redirect(`/project/${projectId}`);
+    } catch (err) {
+        console.error(err);
+        req.flash('error', 'Could not volunteer. Please try again.');
+        res.redirect(`/project/${projectId}`);
+    }
+};
+
+// POST /project/:id/unvolunteer
+const unvolunteerFromProject = async (req, res) => {
+    const projectId = req.params.id;
+    const userId = req.session.user.user_id;
+
+    try {
+        await removeVolunteer(userId, projectId);
+        req.flash('success', 'You are no longer volunteering for this project.');
+        res.redirect(`/project/${projectId}`);
+    } catch (err) {
+        console.error(err);
+        req.flash('error', 'Could not remove volunteer. Please try again.');
+        res.redirect(`/project/${projectId}`);
+    }
+};
+
+export { showProjectsPage, showNewProjectForm, processNewProjectForm, projectValidation, showEditProjectForm, processEditProjectForm, volunteerForProject, unvolunteerFromProject, showProjectDetailsPage };
